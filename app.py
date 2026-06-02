@@ -289,7 +289,7 @@ else:
 
     monthly_spent = 0
 
-remaining_budget = monthly_budget - monthly_spent
+remaining_budget = monthly_budget - total_amount
 
 col1, col2, col3, col4 = st.columns(4)
 
