@@ -253,9 +253,9 @@ if st.sidebar.button("Add Expense"):
         st.toast("Expense Added Successfully! ✅")
 
         # Reset fields
-        st.session_state.title = ""
-        st.session_state.category = "Food"
-        st.session_state.amount = 0.0
+        #st.session_state.title = ""
+        #st.session_state.category = "Food"
+        #st.session_state.amount = 0.0
 
         st.rerun()
 # =========================
