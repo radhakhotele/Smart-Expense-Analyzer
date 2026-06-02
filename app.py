@@ -683,19 +683,45 @@ st.subheader("📋 All Expense Records")
 
 if not df.empty:
 
-    
+    # -------------------------
+    # DELETE EXPENSE
+    # -------------------------
+
+    st.markdown("### 🗑 Delete Expense")
+
+    expense_to_delete = st.selectbox(
+        "Select expense to delete",
+        df.index,
+        format_func=lambda x:
+        f"{df.loc[x,'Title']} - ₹{df.loc[x,'Amount']}"
+    )
+
+    if st.button("Delete Selected Expense"):
+
+        df = df.drop(expense_to_delete)
+
+        df.to_csv(FILE_NAME, index=False)
+
+        st.success("Expense deleted successfully!")
+
+        st.rerun()
+
+    # -------------------------
+    # DISPLAY TABLE
+    # -------------------------
+
     df_display = df.reset_index(
-    drop=True
-)
+        drop=True
+    )
 
     df_display.index = (
-    df_display.index + 1
-)
+        df_display.index + 1
+    )
 
     st.dataframe(
         df_display,
         use_container_width=True
-)
+    )
 # =========================
 # DOWNLOAD CSV
 # =========================
