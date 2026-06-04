@@ -84,11 +84,30 @@ if not os.path.exists(FILE_NAME) or os.path.getsize(FILE_NAME) == 0:
 # =========================
 
 try:
+
     df = pd.read_csv(FILE_NAME)
 
+    if not df.empty:
+
+        df["Date"] = pd.to_datetime(
+            df["Date"],
+            errors="coerce"
+        )
+
+        df["Amount"] = pd.to_numeric(
+            df["Amount"],
+            errors="coerce"
+        )
+
 except:
+
     df = pd.DataFrame(
-        columns=["Date", "Title", "Category", "Amount"]
+        columns=[
+            "Date",
+            "Title",
+            "Category",
+            "Amount"
+        ]
     )
 
 
@@ -204,6 +223,24 @@ if uploaded_file is not None:
             for col in required_columns
         ):
 
+            # Convert Date column properly
+            uploaded_df["Date"] = pd.to_datetime(
+                uploaded_df["Date"],
+                errors="coerce"
+            )
+
+            # Convert Amount column properly
+            uploaded_df["Amount"] = pd.to_numeric(
+                uploaded_df["Amount"],
+                errors="coerce"
+            )
+
+            # Remove invalid rows
+            uploaded_df = uploaded_df.dropna(
+                subset=["Date", "Amount"]
+            )
+
+            # Save uploaded data
             uploaded_df.to_csv(
                 FILE_NAME,
                 index=False
@@ -212,6 +249,8 @@ if uploaded_file is not None:
             st.sidebar.success(
                 "CSV uploaded successfully!"
             )
+
+            st.rerun()
 
         else:
 
